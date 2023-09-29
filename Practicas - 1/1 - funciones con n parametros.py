@@ -3,13 +3,13 @@
 
 import random
 def calcularProductoSuma(*n):
+    valores=""
     producto=1
     suma=0
     for i in n:
+        valores=valores+" "+str(i)
         producto=producto*i
         suma=suma+i
+    print(f"Valores: {valores}")
     print(f"El producto de todos los numeros es: {producto}\nLa suma de todos los numeros es: {suma}")
-
-valoresentrada = [random.randint(1,10) for _ in range(random.randint(2,10))]
-print(f"Valores: {valoresentrada}")
-calcularProductoSuma(*valoresentrada)
+calcularProductoSuma(*(random.randint(1,10) for _ in range(random.randint(2,10))))
