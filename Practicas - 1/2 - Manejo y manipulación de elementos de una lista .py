@@ -3,6 +3,6 @@
 import string
 lista=list(string.ascii_lowercase) 
 print(f"abecedario: {lista}")
-for i in range(0,int(len(lista)/2)):
+for i in range(0,int(len(lista)/2),2):
   lista.pop(i)
 print(lista)
