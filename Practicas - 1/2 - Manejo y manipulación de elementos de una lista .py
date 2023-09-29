@@ -2,7 +2,7 @@
 #posiciones múltiplos de 2, y muestre por pantalla la lista resultante.
 import string
 lista=list(string.ascii_lowercase) 
-print(f"abecedario: {lista}")
+print(f"Abecedario: {lista}")
 for i in range(0,int(len(lista)/2)):
   lista.pop(i)
-print(lista)
+print(f"Resultado: {lista}")

@@ -1,7 +1,7 @@
 # Escribir un programa que reciba un numero entre 0 y 20 e imprimir el numero en letra, no utilizar 
 # condicionales, máximo 5 líneas de código. 
-numeroATexto = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve", "veinte"]
-numero = int(input("Ingrese un numero entre 0 y 20: "))
-#supongo que no usar condicionales solo aplica para obtener el numero en texto y no para verificar si el
-#valor entra en el rango
-print(numeroATexto[numero] if 0 <= numero <= 20 else "Numero fuera del rango.")
+numeroATexto = {0: "cero", 1: "uno", 2: "dos", 3: "tres", 4: "cuatro", 5: "cinco", 6: "seis", 7: "siete", 8: "ocho", 9: "nueve", 10: "diez", 11: "once", 12: "doce", 13: "trece", 14: "catorce", 15: "quince", 16: "dieciséis", 17: "diecisiete", 18: "dieciocho", 19: "diecinueve", 20: "veinte"}
+try:
+    print(numeroATexto[int(input("Ingrese un numero entre 0 y 20: "))])
+except: 
+    print("fuera del rango")

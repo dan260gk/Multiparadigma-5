@@ -6,13 +6,14 @@ cadena=reversed(list(nombre))
 x=True
 temp=list()
 for _ in cadena:
-    if x==True:
-        temp.append(_.lower())
-        x=False
-    else:
-        temp.append(_.upper())
-        x=True
-        
+    if _ != " ":
+        if x==True:
+            temp.append(_.lower())
+            x=False
+        else:
+            temp.append(_.upper())
+            x=True
+
 res=" ".join(temp)
 print(res)
     
