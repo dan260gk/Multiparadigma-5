@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only Flans - Iniciar sesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #e67e22;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+        }
+        button {
+            background-color: #e67e22;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            max-width: 200px; 
+            margin: 1 auto; 
+        }
+        #logo {
+            margin: 0 auto; 
+            background: rgba(255, 165, 0, 0.8); 
+            padding: 10px; 
+        }
+        
+        #logo img {
+            max-width: 20%; 
+            height: auto; 
+            display: block;
+            margin: 0 auto;
+        }
+
+        #login-form {
+            width: 300px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        #login-button {
+            background-color: #e67e22;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #register-link {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #e67e22;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo">
+            <img src="{{ url_for('static', filename='Flanchan.png') }}" alt="Only Flans Logo" height="200">
+        </div>
+    </header>
+
+    <div id="login-form">
+        <h1>Iniciar sesión en Only Flans</h1>
+        <form>
+            <input type="email" id="email" placeholder="Correo electrónico" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="button" id="login-button" onclick="login()">Iniciar sesión</button>
+        </form>
+        <a href="/registro" id="register-link">¿No tienes una cuenta? ¡Regístrate aquí!</a>
+    </div>
+
+    <script>
+        function login() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        localStorage.setItem('token', data.auth_token);
+        console.log("Success:", data);
+        localStorage.setItem('admin', data.administrador);
+        localStorage.setItem('usuario_id', data.id);
+        if (data.administrador) {
+            window.location.href = '/admin_home';
+        } else {
+            window.location.href = '/usuario_home';
+        }
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+    </script>
+</body>
+</html>

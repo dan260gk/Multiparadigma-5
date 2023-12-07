@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 500 - Error interno del servidor</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e74c3c;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        img {
+            max-width: 25%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Error 500 - Error interno del servidor</h1>
+    <p>¡Oh no! Algo salió mal en el servidor y no pudimos procesar tu solicitud. Nuestro equipo de técnicos ya está trabajando para solucionar este problema. Por favor, intenta nuevamente más tarde.</p>
+    <img src="{{ url_for('static', filename='500.jfif') }}" alt="imagen">
+    <p>¿Mientras tanto, te gustaría explorar algo diferente o regresar a la realidad?</p>
+    <p><a href="/">Volver a la realidad</a></p>
+</body>
+</html>

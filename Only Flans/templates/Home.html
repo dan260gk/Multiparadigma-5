@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only Flans - Inicio</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #e67e22; /* Fondo naranja */
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+        }
+
+        #logo {
+            margin: 0 auto; /* Centrar el logo */
+            background: rgba(255, 165, 0, 0.8); /* Fondo naranja con opacidad */
+            padding: 10px; /* Espacio alrededor del logo */
+        }
+
+        #logo img {
+            max-width: 20%; /* Ancho máximo del 100% del contenedor */
+            height: auto; /* Altura automática para mantener la proporción */
+            display: block;
+            margin: 0 auto;
+        }
+
+        #register-form {
+            width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Centrar el contenido del formulario */
+        }
+        button {
+            background-color: #e67e22;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 1 auto; 
+            font-size: large;
+        }
+        #register-form button {
+            width: 100%; /* Ocupar todo el ancho del contenedor */
+            margin-bottom: 10px;
+        }
+
+        #register-form button:first-child {
+            margin-bottom: 100; /* No hay espacio después del primer botón */
+        }
+    </style>
+</head>
+
+<body onload="checkToken()">
+    <header>
+        <div id="logo">
+            <img src="{{ url_for('static', filename='FlanChan2.png') }}" alt="Only Flans Logo" height="150">
+        </div>
+    </header>
+    <div id="register-form">
+        <h1>Bienvenido a OnlyFlans.</h1>
+        <div id="registration-form">
+            <button onclick="window.location.href='/registro'">Registrarse</button>
+            <button onclick="window.location.href='/login'">Acceder</button>            
+        </div>
+    </div>
+    <script>
+        
+function checkToken(){
+        const token = localStorage.getItem('token')
+        const admin = localStorage.getItem('admin')
+        if(token){
+            fetch(`/login?token=${token}`)
+            .then( response => response.json())
+            .then(data =>{
+                if(admin=='false')
+                {
+                    window.location.href='/usuario_home'
+                }
+                if(admin=='true'){
+                    window.location.href='/admin_home'
+                }
+            })}
+    }
+    
+    </script>
+</body>
+
+</html>

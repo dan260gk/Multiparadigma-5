@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only Flans (admin) - inicio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        button {
+            background-color: #e67e22;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            max-width: 200px;
+            margin: 1 auto;
+        }
+
+        header {
+            background-color: #e67e22;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+        }
+
+        #logo {
+            float: left;
+            margin-left: 10px;
+        }
+
+        #login {
+            float: right;
+            margin-right: 30px;
+            margin-top: 30px;
+        }
+
+        section {
+            margin: 20px;
+        }
+
+        h1 {
+            color: #e67e22;
+        }
+
+        .product {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .checkbox-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .custom-checkbox {
+            display: none;
+        }
+
+        .custom-checkbox-label {
+            position: relative;
+            cursor: pointer;
+            padding-left: 25px;
+            margin-bottom: 0;
+            display: inline-block;
+            line-height: 20px;
+        }
+
+        .custom-checkbox-label:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333;
+            background-color: #fff;
+        }
+
+        .custom-checkbox:checked+.custom-checkbox-label:before {
+            content: "✔";
+            text-align: center;
+            line-height: 18px;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+            border-color: #333;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .buy-button {
+            background-color: #e67e22;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            max-width: 100px;
+            margin: 1 auto;
+            display: block;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+
+        .product-content {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body onload="checkToken()">
+
+    <header>
+        <div id="logo">
+            <img src="{{ url_for('static', filename='Flanchan.png') }}" alt="Only Flans Logo" height="70" width="auto">
+        </div>
+        <div id="login">
+            <button onclick="generarCSV()">Generar CSV de usuarios</button>
+            <button onclick="verRecetasPendientes()">Ver recetas pendientes</button>
+            <button onclick="borrarToken()">logout</button>
+        </div>
+    </header>
+
+    <section>
+        <h1>Bienvenido a Only Flans</h1>
+
+        {% block content %}
+        {% for receta in recetas %}
+        <div class="product">
+            <h2 id="titulo">{{ receta.titulo }}</h2>
+            <p id="descripcion">{{ receta.descripcion }}</p>
+            <p id="nombre_usuario">{{ receta.usuario.nombre }}</p>
+            <img src="{{ url_for('static', filename='inf.jpg') }}" width="500" height="auto">
+            <div class="product-content">
+                <button onclick="ver({{ receta.id }})" class="buy-button">Ver receta</button>
+            </div>
+        </div>
+        {% endfor %}
+        {% endblock %}
+
+    </section>
+    <script>
+        function checkToken() {
+            const token = localStorage.getItem('token')
+            const admin = localStorage.getItem('admin')
+            if (token) {
+                fetch(`/login?token=${token}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.message, admin)
+                        if (data.message != "valid token") {
+                            localStorage.removeItem('token')
+                            window.location.href = '/login'
+                        }
+                        if (admin == 'false') {
+                            window.location.href = '/usuario_home'
+                        }
+                    })
+                    .catch(error => {
+                        window.location.href = '/login'
+                    })
+            } else {
+                window.location.href = '/login'
+            }
+        }
+        function borrarToken() {
+            localStorage.removeItem('token');
+            window.location.href = '/'
+        }
+        function ver(id) {
+            window.location.href = `/recetacompleta?receta_id=${id}`;
+        }
+        function verRecetasPendientes() {
+            window.location.href = '/aprobar';
+        }
+        function generarCSV() {
+            window.location.href = '/generar_csv_usuarios';
+        }
+
+    </script>
+</body>
+
+</html>

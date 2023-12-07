@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only Flans - Informacion de la receta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #e67e22;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+        }
+
+        #logo {
+            float: left;
+            margin-left: 10px;
+        }
+
+        #login {
+            float: right;
+            margin-right: 30px;
+            margin-top: 30px;
+        }
+
+        section {
+            margin: 20px;
+        }
+
+        h1 {
+            color: #e67e22;
+        }
+
+        .product {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            position: relative; /* Agregado para posicionar el checkbox correctamente */
+        }
+
+        .checkbox-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Estilos adicionales para mejorar la apariencia del checkbox */
+        .custom-checkbox {
+            display: none;
+        }
+
+        .custom-checkbox-label {
+            position: relative;
+            cursor: pointer;
+            padding-left: 25px;
+            margin-bottom: 0;
+            display: inline-block;
+            line-height: 20px;
+        }
+
+        .custom-checkbox-label:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333;
+            background-color: #fff;
+        }
+
+        .custom-checkbox:checked + .custom-checkbox-label:before {
+            content: "✔";
+            text-align: center;
+            line-height: 18px;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+            border-color: #333;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #e67e22;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            max-width: 200px; 
+            margin: 1 auto; 
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+
+        .product-content {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo">
+            <img src="{{ url_for('static', filename='Flanchan.png') }}" alt="Only Flans Logo" height="70" width="auto">
+        </div>
+        <div id="login">
+            <button onclick="window.location.href = '/generatePdf/{{ receta.id }}'">Generar PDF</button>
+            <button onclick="toggleFavorito({{ receta.id }})">Agregar a favoritos</button>
+            <button onclick="window.history.back()">Volver</button>
+        </div>
+    </header>
+    <h1>Receta</h1>
+    <div class="product">
+        <h2>{{ receta.titulo }}</h2>
+        <h3>Descripción</h3>
+        <p>{{ receta.descripcion }}</p>
+
+        <h3>Dificultad</h2>
+        <p>{{ receta.dificultad }}</p>
+
+        <h3>Tiempo de Preparación</h3>
+        <p>{{ receta.tiempo_preparacion }}</p>
+
+        <h3>Ingredientes</h3>
+        <p>{{ receta.ingredientes }}</p>
+
+        <h3>Instrucciones</h3>
+        <p>{{ receta.instrucciones }}</p>
+        </div>
+        <script>
+            function toggleFavorito(recetaId) {
+                const userId = localStorage.getItem('usuario_id');
+        
+                if (!userId) {
+                    // Si el ID del usuario no está presente, redirige al usuario a la página de inicio de sesión
+                    window.location.href = '/login';
+                    return;
+                }
+        
+                // Hacer una solicitud al servidor para verificar y agregar o eliminar la receta de favoritos
+                fetch(`/toggle_favorito/${userId}/${recetaId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al interactuar con favoritos');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message);
+                    alert(data.status)
+                })
+                .catch(error => {
+                    console.error('Error al interactuar con favoritos:', error);
+                });
+            }
+        </script>
+               
+        
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404 - Página no encontrada</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e67e22;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        img {
+            max-width: 200%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Error 404 - Página no encontrada</h1>
+    <p>Usuario-sama, parece que te has extraviado en el vasto mundo virtual. La página que buscas no está disponible, pero no te preocupes, siempre hay más por descubrir en esta biblioteca digital.</p>
+    <img src="{{ url_for('static', filename='Sflanchan.jfif') }}" alt="imagen">
+    <p>¿Te gustaría explorar algo diferente o simplemente regresar a la realidad?</p>
+    <p><a href="/">Volver a la realidad</a></p>
+     
+</body>
+</html>
+
